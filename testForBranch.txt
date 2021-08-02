@@ -1,0 +1,28 @@
+在開發軟體時，可能同時會有多人在開發同一功能或修復錯誤，也可能會有多個發佈版本的存在，並且需要針對每個版本進行維護。
+為了能支援同時進行數個功能的增加或版本控制，Git 具備了分支的功能。
+1. 分支建立
+
+$ git branch <Name>
+2. 切換指定支流
+
+$ git checkout <Name>
+
+$ git checkout -b <Name> # 同時建立且切換分支
+3. 查看目前所有本地分支
+
+$ git branch # 查看本地所有分支
+
+$ git branch -a # 查看所有分支(含遠端分支)
+4. 刪除指定分支
+
+$ git branch -d <name>
+5. 分支合併 Merge
+
+$ git checkout master # 先切換到主分支
+
+$ git merge <副分支> # fast-forward
+
+$ git merge <副分支> --no-ff # no-fast-forward
+
+$ git merge --abort # 恢復 Merge 之前
+
