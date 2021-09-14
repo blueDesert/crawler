@@ -19,15 +19,17 @@ server = sys.argv[1]
 service = service.replace("<<server>>", server)
 user = sys.argv[2]
 
+#XML login format
 loginReq = '<DM2ContentIndexing_CheckCredentialReq mode="Webconsole" username="<<username>>" password="<<password>>" />'
 
-#add auth with json format
+#json login format
 loginReq_json = '''
 {
-"username":"admin",
-"password":"MXFhekBXU1g="
+"username":'%s',
+"password":'%s'
 }
-'''
+'''%(user,str(base64.b64encode(bytes(sys.argv[3], encoding='utf8')), encoding='utf-8'))
+
 
 headers = {'Accept':'application/json','Content-type':'application/json'}
 
@@ -51,10 +53,9 @@ else:
 
 r = requests.post(service + 'Login', data=loginReq)
 r_json = requests.post(service + 'Login', data=loginReq_json , headers = headers)
-#print(r_json.text)
 print('===============token==============')
-#print(json.loads(r_json.text)['token'])
-print('=====================below as using XML=====================')
+print(json.loads(r_json.text)['token'])
+#print('=====================below as using XML=====================')
 #print(service+'Login')
 #print(loginReq)
 token = None
@@ -77,13 +78,14 @@ headers = {'Authtoken': token,'Content-type':'application/json','Accept':'applic
 #headers = {'Authtoken': token,'Content-type':'application/json'}
 
 #get client information
-#clientPropsReq = service + 'Subclient?clientId=2'
+clientPropsReq = service + 'Subclient?clientId=2'
 #clientPropsReq = service + 'Subclient/2/action/backup?backupLevel=Incremental'
-clientPropsReq = service + 'Subclient/7/action/backup'
+#clientPropsReq = service + 'Subclient/7/action/backup'
+print('===================below as request URI')
 print(clientPropsReq)
 
 #get response using get
-r = requests.post(clientPropsReq, headers=headers)
+r = requests.get(clientPropsReq, headers=headers)
 clientResp = r.text
 print(clientResp)
 
